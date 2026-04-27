@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kalkulator Kebutuhan Kalori Harian</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg,#e0f2fe,#f8fafc);
+      padding:20px;
+      margin:0;
+    }
+    .hero {
+      max-width:900px;
+      margin:0 auto 30px auto;
+      text-align:center;
+    }
+    .hero img.header {
+      width:100%;
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.15);
+    }
+    .hero img.logo {
+      width:220px;
+      margin-top:20px;
+    }
+    .card {
+      max-width:900px;
+      margin:auto;
+      background:#fff;
+      padding:30px;
+      border-radius:24px;
+      box-shadow:0 15px 35px rgba(0,0,0,0.12);
+    }
+    h1 { text-align:center; color:#1d4ed8; margin-bottom:8px; }
+    .subtitle { text-align:center; color:#64748b; margin-bottom:25px; }
+    input, select, button {
+      width:100%;
+      padding:14px;
+      margin:8px 0;
+      border:1px solid #cbd5e1;
+      border-radius:10px;
+      font-size:15px;
+    }
+    button {
+      background:#2563eb;
+      color:white;
+      border:none;
+      font-weight:bold;
+      cursor:pointer;
+    }
+    button:hover { background:#1d4ed8; }
+    .info-box {
+      background:#eff6ff;
+      padding:18px;
+      border-radius:14px;
+      margin-bottom:25px;
+      border-left:6px solid #2563eb;
+    }
+    .result-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:15px;
+      margin-top:20px;
+    }
+    .result-card {
+      padding:20px;
+      border-radius:16px;
+      text-align:center;
+      color:white;
+    }
+    .bmr-card { background:#2563eb; }
+    .tdee-card { background:#16a34a; }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <img src="LOGO_HWP_.png" class="logo" alt="Logo HWP">
+  </div>
+
+  <div class="card">
+    <div style="background:#eff6ff; padding:15px; border-radius:12px; margin-bottom:20px; border-left:5px solid #2563eb;">
+      <h3 style="margin:0 0 8px 0; color:#1e3a8a;">Apa itu BMR?</h3>
+      <p style="margin:0; font-size:14px; color:#374151;">
+        Basal Metabolic Rate (BMR) adalah jumlah kalori minimum yang dibutuhkan tubuh saat istirahat untuk menjaga fungsi vital seperti pernapasan, sirkulasi darah, dan kerja organ tubuh.
+      </p>
+      <p style="margin:10px 0 0 0; font-size:14px; color:#374151;">
+        <strong>TDEE</strong> = Energi saat Anda menjalani hari seperti biasa (bekerja, makan, dan olahraga).
+      </p>
+    </div>
+    <h1>Kalkulator Kebutuhan Kalori Harian</h1>
+    <p class="subtitle">BMR & TDEE untuk Produktivitas dan Kesehatan Kerja</p>
+    <p style="text-align:center; font-size:12px; color:#64748b; margin-top:-10px;">Menggunakan rumus Mifflin-St Jeor untuk pria dan wanita</p>
+    <select id="gender">
+      <option value="male">Pria</option>
+      <option value="female">Wanita</option>
+    </select>
+
+    <input type="number" id="berat" placeholder="Berat (kg)">
+    <input type="number" id="tinggi" placeholder="Tinggi (cm)">
+    <input type="number" id="umur" placeholder="Umur (tahun)">
+
+    <select id="aktivitas">
+      <option value="1.2">Jarang Gerak (1.2)</option>
+      <option value="1.375">Aktivitas Ringan (1.375)</option>
+      <option value="1.55">Aktivitas Sedang (1.55)</option>
+      <option value="1.725">Aktivitas Berat (1.725)</option>
+    </select>
+
+    <button onclick="hitungKalori()">Hitung</button>
+
+    <div id="hasil" style="display:none;">
+      <div class="result-grid">
+        <div class="result-card bmr-card">
+          <h3>BMR</h3>
+          <h2><span id="bmr"></span> kcal</h2>
+        </div>
+        <div class="result-card tdee-card">
+          <h3>TDEE</h3>
+          <h2><span id="tdee"></span> kcal/hari</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function hitungKalori() {
+      const berat = parseFloat(document.getElementById('berat').value);
+      const tinggi = parseFloat(document.getElementById('tinggi').value);
+      const umur = parseFloat(document.getElementById('umur').value);
+      const aktivitas = parseFloat(document.getElementById('aktivitas').value);
+
+      if (!berat || !tinggi || !umur) {
+        alert('Mohon isi semua data terlebih dahulu');
+        return;
+      }
+
+      const gender = document.getElementById('gender').value;
+      let bmr;
+
+      if (gender === 'male') {
+        bmr = (10 * berat) + (6.25 * tinggi) - (5 * umur) + 5;
+      } else {
+        bmr = (10 * berat) + (6.25 * tinggi) - (5 * umur) - 161;
+      }
+      const tdee = bmr * aktivitas;
+
+      document.getElementById('bmr').innerText = Math.round(bmr);
+      document.getElementById('tdee').innerText = Math.round(tdee);
+      document.getElementById('hasil').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
